@@ -11,6 +11,10 @@
     "require": {
         "php": "^8.2",
         "barryvdh/laravel-dompdf": "^3.1",
+<<<<<<< HEAD
+        "dompdf/dompdf": "^3.1",
+=======
+>>>>>>> 68c2c9b318fc8467ad3eacd1f04e4e71f379d3ca
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9"
     },
