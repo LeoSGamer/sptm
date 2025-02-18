@@ -3,22 +3,22 @@ require 'vendor/autoload.php';
 use Dompdf\Dompdf;
 
 // Configuración de la base de datos
-$host = '127.0.0.1';
-$dbname = 'autopsias_db';
-$username = 'prueba';
-$password = '000';
+$host = 'localhost';
+$dbname = 'autopsias_bd';
+$username = 'root';
+$password = '';
 
 try {
-    // Conectar a la base de datos usando PDO
+    // Conectar a la base de datos
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Obtener el ID de la autopsia (puede venir de un formulario o URL)
-    $autopsia_id = $_GET['id'] ?? 1; // Por defecto, usa el ID 1 si no se proporciona
+    // Obtener el ID de la autopsia desde el formulario
+    $idAutopsia = $_POST['idAutopsia'];
 
-    // Consulta SQL para obtener los datos de la autopsia y relacionados
+    // Consulta SQL para obtener los datos de la autopsia
     $sql = "
-        SELECT
+        SELECT 
             a.idAutopsia,
             a.fechaAutopsia,
             a.procedimiento,
@@ -41,10 +41,10 @@ try {
         LEFT JOIN HistorialClinico hc ON c.idCadaver = hc.Cadaver_idCadaver
         LEFT JOIN ExamenComplementario ec ON a.idAutopsia = ec.Autopsia_idAutopsia
         LEFT JOIN Muestra m ON c.idCadaver = m.Cadaver_idCadaver
-        WHERE a.idAutopsia = :id
+        WHERE a.idAutopsia = :idAutopsia
     ";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute(['id' => $autopsia_id]);
+    $stmt->execute(['idAutopsia' => $idAutopsia]);
     $autopsia = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // Verificar si se encontró la autopsia
@@ -52,9 +52,15 @@ try {
         die("No se encontró la autopsia con el ID proporcionado.");
     }
 
-    // Datos para la plantilla
+    // Cargar la plantilla HTML
+    $html = file_get_contents(__DIR__ . '/templates/template.html');
+
+    // Reemplazar placeholders con los datos de la base de datos
     $data = [
         'nombre' => $autopsia['nombre_cadaver'],
+        'edad' => 'Edad no disponible', // Ajusta según tu estructura
+        'sexo' => 'Sexo no disponible', // Ajusta según tu estructura
+        'fecha_muerte' => 'Fecha de muerte no disponible', // Ajusta según tu estructura
         'historial_clinico' => $autopsia['historial_clinico'],
         'tratamientos' => $autopsia['tratamientos'],
         'tipo_examen' => $autopsia['tipoExamen'],
@@ -69,13 +75,10 @@ try {
         'especialidad' => $autopsia['especialidad']
     ];
 
-    // Cargar la plantilla HTML
-    $html = file_get_contents('templates/pdf.html');
-
-    // Reemplazar los placeholders con los datos reales
     foreach ($data as $key => $value) {
         $html = str_replace("[$key]", $value, $html);
     }
+
     // Crear el PDF
     $dompdf = new Dompdf();
     $dompdf->loadHtml($html);
@@ -83,24 +86,24 @@ try {
     $dompdf->render();
 
     // Guardar el PDF en la carpeta /reports
-    $output = $dompdf->output();
-    file_put_contents(__DIR__ . '/reports/informe_autopsia_' . $autopsia_id . '.pdf', $output);
+    $rutaPDF = __DIR__ . '/reports/informe_autopsia_' . $idAutopsia . '.pdf';
+    file_put_contents($rutaPDF, $dompdf->output());
+
+    // Insertar los datos del informe en la base de datos (opcional)
+    $sql = "
+        INSERT INTO Informes (contenido, rutaPDF, Autopsia_idAutopsia)
+        VALUES (:contenido, :rutaPDF, :autopsia_id)
+    ";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'contenido' => $html, // Puedes guardar el contenido HTML si lo necesitas
+        'rutaPDF' => $rutaPDF,
+        'autopsia_id' => $idAutopsia
+    ]);
 
     // Redirigir de vuelta a index.php
-    header('Location: index.php?id=' . $autopsia_id);
+    header('Location: index.php?id=' . $idAutopsia);
     exit;
-    // Crear el PDF
-    //$dompdf = new Dompdf();
-    //$dompdf->loadHtml($html);
-    //$dompdf->setPaper('A4', 'portrait');
-    //$dompdf->render();
-
-    // Guardar el PDF en la carpeta /reports (opcional), se puede crear la carpeta y se le da permisos
-    //$output = $dompdf->output();
-    //file_put_contents('reports/informe_autopsia_' . $autopsia_id . '.pdf', $output);
-
-    // Descargar el PDF automáticamente
-    //$dompdf->stream("informe_autopsia_$autopsia_id.pdf", ["Attachment" => true]);
 
 } catch (PDOException $e) {
     die("Error de conexión a la base de datos: " . $e->getMessage());

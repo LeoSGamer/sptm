@@ -1,53 +1,125 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        .header { text-align: center; }
-        .content { margin: 20px; }
-        table { width: 100%; border-collapse: collapse; }
-        table, th, td { border: 1px solid black; }
-        th, td { padding: 8px; text-align: left; }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe de Autopsia</title>
+    <!-- Tailwind CSS desde CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <div class="header">
-        <h1>Informe de Autopsia</h1>
-        <p>Hospital: Teretoasaber</p>
-    </div>
-    <div class="content">
-        <h2>Datos del Fallecido</h2>
-        <p>Nombre: [nombre]</p>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-8">
+        <!-- Título principal -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 bg-blue-100 p-4 rounded-lg">Informe de Autopsia</h1>
+            <p class="text-gray-600 mt-2">Hospital: [hospital]</p>
+        </div>
 
-        <h2>Historial Clínico</h2>
-        <p>[historial_clinico]</p>
+        <!-- Sección: Datos del Fallecido -->
+        <div class="mb-8">
+            <div class="bg-blue-50 p-4 rounded-t-lg">
+                <h2 class="text-xl font-semibold text-blue-800">Datos del Fallecido</h2>
+            </div>
+            <div class="bg-white p-4 rounded-b-lg border border-blue-100">
+                <p><span class="font-medium">Nombre:</span> [nombre]</p>
+                <p><span class="font-medium">Edad:</span> [edad]</p>
+                <p><span class="font-medium">Sexo:</span> [sexo]</p>
+                <p><span class="font-medium">Fecha y Hora de la Muerte:</span> [fecha_muerte]</p>
+            </div>
+        </div>
 
-        <h2>Tratamientos</h2>
-        <p>[tratamientos]</p>
+        <!-- Sección: Historial Clínico -->
+        <div class="mb-8">
+            <div class="bg-green-50 p-4 rounded-t-lg">
+                <h2 class="text-xl font-semibold text-green-800">Historial Clínico</h2>
+            </div>
+            <div class="bg-white p-4 rounded-b-lg border border-green-100">
+                <p class="text-gray-600">[historial_clinico]</p>
+            </div>
+        </div>
 
-        <h2>Examen Complementario</h2>
-        <p>Tipo de Examen: [tipo_examen]</p>
-        <p>Resultados: [resultados_examen]</p>
+        <!-- Sección: Tratamientos -->
+        <div class="mb-8">
+            <div class="bg-yellow-50 p-4 rounded-t-lg">
+                <h2 class="text-xl font-semibold text-yellow-800">Tratamientos</h2>
+            </div>
+            <div class="bg-white p-4 rounded-b-lg border border-yellow-100">
+                <p class="text-gray-600">[tratamientos]</p>
+            </div>
+        </div>
 
-        <h2>Muestras</h2>
-        <p>Tipo de Muestra: [tipo_muestra]</p>
-        <p>Resultados: [resultados_muestra]</p>
+        <!-- Sección: Examen Complementario -->
+        <div class="mb-8">
+            <div class="bg-purple-50 p-4 rounded-t-lg">
+                <h2 class="text-xl font-semibold text-purple-800">Examen Complementario</h2>
+            </div>
+            <div class="bg-white p-4 rounded-b-lg border border-purple-100">
+                <p><span class="font-medium">Tipo de Examen:</span> [tipo_examen]</p>
+                <p><span class="font-medium">Resultados:</span> [resultados_examen]</p>
+            </div>
+        </div>
 
-        <h2>Procedimiento de Autopsia</h2>
-        <p>[procedimiento_autopsia]</p>
+        <!-- Sección: Muestras -->
+        <div class="mb-8">
+            <div class="bg-pink-50 p-4 rounded-t-lg">
+                <h2 class="text-xl font-semibold text-pink-800">Muestras</h2>
+            </div>
+            <div class="bg-white p-4 rounded-b-lg border border-pink-100">
+                <p><span class="font-medium">Tipo de Muestra:</span> [tipo_muestra]</p>
+                <p><span class="font-medium">Resultados:</span> [resultados_muestra]</p>
+            </div>
+        </div>
 
-        <h2>Fecha de Autopsia</h2>
-        <p>[fecha_autopsia]</p>
+        <!-- Sección: Procedimiento de Autopsia -->
+        <div class="mb-8">
+            <div class="bg-indigo-50 p-4 rounded-t-lg">
+                <h2 class="text-xl font-semibold text-indigo-800">Procedimiento de Autopsia</h2>
+            </div>
+            <div class="bg-white p-4 rounded-b-lg border border-indigo-100">
+                <p class="text-gray-600">[procedimiento_autopsia]</p>
+            </div>
+        </div>
 
-        <h2>Hallazgos</h2>
-        <p>[hallazgos]</p>
+        <!-- Sección: Fecha de Autopsia -->
+        <div class="mb-8">
+            <div class="bg-teal-50 p-4 rounded-t-lg">
+                <h2 class="text-xl font-semibold text-teal-800">Fecha de Autopsia</h2>
+            </div>
+            <div class="bg-white p-4 rounded-b-lg border border-teal-100">
+                <p class="text-gray-600">[fecha_autopsia]</p>
+            </div>
+        </div>
 
-        <h2>Causa de Muerte</h2>
-        <p>[causa_muerte]</p>
+        <!-- Sección: Hallazgos -->
+        <div class="mb-8">
+            <div class="bg-orange-50 p-4 rounded-t-lg">
+                <h2 class="text-xl font-semibold text-orange-800">Hallazgos</h2>
+            </div>
+            <div class="bg-white p-4 rounded-b-lg border border-orange-100">
+                <p class="text-gray-600">[hallazgos]</p>
+            </div>
+        </div>
 
-        <h2>Patólogo</h2>
-        <p>Nombre: [nombre_patologo]</p>
-        <p>Especialidad: [especialidad]</p>
+        <!-- Sección: Causa de Muerte -->
+        <div class="mb-8">
+            <div class="bg-red-50 p-4 rounded-t-lg">
+                <h2 class="text-xl font-semibold text-red-800">Causa de Muerte</h2>
+            </div>
+            <div class="bg-white p-4 rounded-b-lg border border-red-100">
+                <p class="text-gray-600">[causa_muerte]</p>
+            </div>
+        </div>
+
+        <!-- Sección: Patólogo -->
+        <div class="mb-8">
+            <div class="bg-cyan-50 p-4 rounded-t-lg">
+                <h2 class="text-xl font-semibold text-cyan-800">Patólogo</h2>
+            </div>
+            <div class="bg-white p-4 rounded-b-lg border border-cyan-100">
+                <p><span class="font-medium">Nombre:</span> [nombre_patologo]</p>
+                <p><span class="font-medium">Especialidad:</span> [especialidad]</p>
+            </div>
+        </div>
     </div>
 </body>
 </html>
